@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secure Checkout | BookMySeat</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        /* Matches the light grey background of the movie site */
+        background-color: #f8f9fa; 
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .payment-card {
+        /* Matches the white cards in the screenshot */
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 8px;
+        width: 400px;
+        /* Softer shadow to match the "View Theater" cards */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border: 1px solid #dee2e6;
+        text-align: center;
+    }
+
+    .payment-card h2 {
+        margin-bottom: 20px;
+        color: #212529;
+        font-weight: 600;
+    }
+
+    .info {
+        margin: 20px 0;
+        font-size: 15px;
+        color: #6c757d; /* Muted text like the "Cast" section */
+        text-align: left;
+        line-height: 1.6;
+    }
+
+    .info strong {
+        color: #333;
+    }
+
+    .amount {
+        font-size: 28px;
+        margin: 25px 0;
+        font-weight: bold;
+        /* Matches the "Avengers" text color/intensity */
+        color: #212529; 
+    }
+
+    /* Primary Button: Matches the "View Theater" blue */
+    button {
+        background: #007bff; 
+        border: none;
+        padding: 14px 20px;
+        font-size: 16px;
+        color: white;
+        border-radius: 4px; /* Slightly more square like your site's buttons */
+        cursor: pointer;
+        width: 100%;
+        transition: background 0.2s ease;
+        font-weight: 500;
+    }
+
+    button:hover {
+        background: #0056b3;
+        transform: none; /* Removed the scale effect to match standard web UI */
+    }
+
+    .secure {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #adb5bd;
+    }
+</style>
+</head>
+<body>
+
+<div class="payment-card">
+    <h2>🎟 Confirm Your Booking</h2>
+
+    <div class="info">
+        <p><strong>Movie:</strong> {{ booking.movie.name }}</p>
+        <p><strong>Theater:</strong> {{ booking.theater.name }}</p>
+        <p><strong>Seat:</strong> {{ booking.seat.seat_number }}</p>
+    </div>
+
+    <div class="amount">
+        ₹ {{ booking.total_amount }}
+    </div>
+    <div style="margin-bottom:15px; font-size:16px; color:red; font-weight:bold;">
+⏳ Time left to complete booking: <span id="timer">05:00</span>
+    </div>
+
+    <button id="rzp-button1">Pay Securely</button>
+
+    <div class="secure">
+        🔒 Payments powered by Razorpay
+    </div>
+</div>
+
+<script>
+var options = {
+    "key": "{{ razorpay_key }}",
+    "amount": "{{ amount }}",
+    "currency": "INR",
+    "name": "BookMySeat",
+    "description": "Movie Ticket Payment",
+    "order_id": "{{ order_id }}",
+    "handler": function (response){
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "/movies/payment-success/";
+
+        var fields = {
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature
+        };
+
+        for (var key in fields) {
+            var hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = key;
+            hiddenField.value = fields[key];
+            form.appendChild(hiddenField);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    },
+    "theme": {
+        "color": "#00c853"
+    }
+};
+
+var rzp1 = new Razorpay(options);
+
+// 5 minute countdown timer
+let timeLeft = 300;
+
+function startTimer() {
+
+    let timerInterval = setInterval(function(){
+
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+
+        if(seconds < 10){
+            seconds = "0" + seconds;
+        }
+
+        document.getElementById("timer").innerHTML = minutes + ":" + seconds;
+
+        timeLeft--;
+
+        if(timeLeft < 0){
+            clearInterval(timerInterval);
+
+            alert("⏰ Reservation expired! Please book again.");
+
+            window.location.href = "/movies/";
+        }
+
+    },1000);
+}
+
+startTimer();
+
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+
+</body>
+</html>

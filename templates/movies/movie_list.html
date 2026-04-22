@@ -1,0 +1,154 @@
+{% extends "users/basic.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Movies</h1>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-10">
+            <form method="GET" action="{% url 'movie_list' %}" class="bg-light p-4 rounded shadow-sm">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <div class="input-group">
+                            <input class="form-control" name="search" placeholder="Search for Movies, Events, Plays..."
+                                type="text" value="{{ request.GET.search|default_if_none:'' }}">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 mb-3">
+                        <select name="genre" class="form-control custom-select">
+                            <option value="">All Genres</option>
+                            {% for g in genres %}
+                            <option value="{{ g }}" {% if g == selected_genre %}selected{% endif %}>
+                                {{ g }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2 mb-3">
+                        <select name="language" class="form-control custom-select">
+                            <option value="">All Languages</option>
+                            {% for l in languages %}
+                            <option value="{{ l }}" {% if l == selected_language %}selected{% endif %}>
+                                {{ l }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2 mb-3">
+                        <button type="submit" class="btn btn-outline-primary btn-block">
+                            Apply
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" id="movieList">
+        {% for movie in movies %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                {% if movie.image %}
+                <a href="{% url 'movie_detail' movie.id %}">
+                    <img src="{{ movie.image.url }}" class="card-img-top" alt="{{ movie.name }}"
+                    style="height: 400px; object-fit: cover;">
+                </a>
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">
+                        <a href="{% url 'movie_detail' movie.id %}" style="text-decoration: none; color: black;">
+                        {{ movie.name }}
+                        </a>
+                    </h5>
+
+                    <p class="card-text">
+                        <i class="fas fa-star text-warning"></i> <strong>{{ movie.rating }}</strong>/10
+                    </p>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <i class="fas fa-users"></i> Cast: {{ movie.cast|truncatechars:50 }}
+                        </small>
+                    </p>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+
+
+    <div class="card-footer bg-white border-top-0">
+
+    {% if movie.trailer_url %}
+    <button onclick="openTrailer('{{ movie.trailer_url }}')" 
+        class="btn btn-outline-primary btn-block mb-2">
+        🎬 Watch Trailer
+    </button>
+    {% endif %}
+
+    <a href="{% url 'theater_list' movie.id %}" class="btn btn-primary btn-block">
+        View theater
+    </a>
+
+</div>
+
+
+</div>
+
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <i class="fas fa-film fa-3x text-muted mb-3"></i>
+            <p class="lead">No movies found matching your criteria.</p>
+            <a href="{% url 'movie_list' %}" class="btn btn-link">Clear all filters</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .custom-select {
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: #0062ff;
+        border-color: #0062ff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0062ff;
+        border-color: #0062ff;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<script>
+function openTrailer(url) {
+    window.open(url, "_blank");
+}
+</script>
+
+
+
+
+{% endblock %}
+

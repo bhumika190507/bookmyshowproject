@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Movies</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #111827;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Movies Analytics</h1>
+
+<table>
+    <tr>
+        <th>Movie</th>
+        <th>Total Bookings</th>
+        <th>Total Revenue</th>
+    </tr>
+
+    {% for m in movie_data %}
+    <tr>
+        <td>{{ m.name }}</td>
+        <td>{{ m.total_bookings }}</td>
+        <td>₹{{ m.total_revenue }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>

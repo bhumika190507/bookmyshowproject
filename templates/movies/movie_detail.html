@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ movie.name }}</title>
+</head>
+<body>
+
+    <h1>{{ movie.name }}</h1>
+
+    <img src="{{ movie.image.url }}" width="300">
+
+    <p><strong>Rating:</strong> {{ movie.rating }}</p>
+    <p><strong>Genre:</strong> {{ movie.genre }}</p>
+    <p><strong>Language:</strong> {{ movie.language }}</p>
+    <p><strong>Cast:</strong> {{ movie.cast }}</p>
+    <p>{{ movie.description }}</p>
+
+<!-- 🎬 Trailer Section -->
+
+<div id="trailerModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center;">
+    
+    <div style="position:relative; width:70%; max-width:800px;">
+        <span onclick="closeTrailer()" 
+            style="position:absolute; top:-30px; right:0; color:white; font-size:30px; cursor:pointer;">
+            &times;
+        </span>
+
+        <iframe id="trailerFrame"
+            width="100%" height="450"
+            frameborder="0"
+            allowfullscreen>
+        </iframe>
+    </div>
+</div>
+
+<script>
+function openTrailer(url) {
+    document.getElementById("trailerFrame").src = url;
+    document.getElementById("trailerModal").style.display = "flex";
+}
+
+function closeTrailer() {
+    document.getElementById("trailerModal").style.display = "none";
+    document.getElementById("trailerFrame").src = "";
+}
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            color: #e50914;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🎟 Booking Confirmed!</h2>
+
+        <p>Hey {{ user.username }},</p>
+
+        <p>Your ticket has been successfully booked. Here are the details:</p>
+
+        <p>
+            <strong>Movie:</strong> {{ booking.movie.title }} <br>
+            <strong>Date:</strong> {{ booking.show_date }} <br>
+            <strong>Time:</strong> {{ booking.show_time }} <br>
+            <strong>Seats:</strong> {{ booking.seats }} <br>
+            <strong>Booking ID:</strong> {{ booking.id }}
+        </p>
+
+        <p>Enjoy the show 🍿</p>
+
+        <p>— BookMySeat Team</p>
+    </div>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            color: #e50914;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🎟 Booking Confirmed!</h2>
+
+        <p>Hey {{ user.username }},</p>
+
+        <p>Your ticket has been successfully booked. Here are the details:</p>
+
+        <p>
+            <strong>Movie:</strong> {{ booking.movie.name }} <br>
+            <strong>Theater:</strong> {{ booking.theater.name }} <br>
+            <strong>Seat:</strong> {{ booking.seat.seat_number }} <br>
+            <strong>Booking Time:</strong> {{ booking.booked_at }} <br>
+            <strong>Booking ID:</strong> {{ booking.id }}
+        </p>
+
+        <p>Enjoy the show 🍿</p>
+
+        <p>— BookMySeat Team</p>
+    </div>
+</body>
+</html>
