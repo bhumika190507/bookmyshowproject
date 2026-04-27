@@ -16,8 +16,14 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
 
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-c8aetlj(=vp90n@#yoc^&d(_6ivp(d!bv-4-f!r$lawptjzrwu'
+
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
@@ -101,10 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# RAZORPAY_KEY_ID = "rzp_test_SKhJqSovEHEPYf"
-# RAZORPAY_KEY_SECRET = "SjtsK4186NqZDdmlbikCkY02"
-RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID')
-RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET')
+RAZORPAY_KEY_ID = "rzp_test_SKhJqSovEHEPYf"
+RAZORPAY_KEY_SECRET = "SjtsK4186NqZDdmlbikCkY02"
+
 
 
 LANGUAGE_CODE = 'en-us'
@@ -124,10 +129,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = 'lalwanibhumika36@gmail.com'
-# EMAIL_HOST_PASSWORD = 'wqmq apxe txra jiij'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_PASSWORD = 'wqmq apxe txra jiij'
 DEFAULT_FROM_EMAIL = 'bookmyseat <lalwanibhumika36@gmail.com>'
-
-is_staff = True
-
-is_superuser = True
