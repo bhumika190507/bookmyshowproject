@@ -1,7 +1,10 @@
 import os
-from django.contrib.auth import get_user_model
+import django
 
-User = get_user_model()
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bookmyseat.settings')
+django.setup()
+
+from django.contrib.auth.models import User
 
 if not User.objects.filter(username="admin").exists():
     User.objects.create_superuser(
