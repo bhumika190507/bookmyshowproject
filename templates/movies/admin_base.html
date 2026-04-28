@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Admin{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f4f6f9;
+        }
+
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            position: fixed;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #9ca3af;
+            text-decoration: none;
+            margin: 10px 0;
+        }
+
+        .sidebar a:hover {
+            color: white;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 10px;
+            background: #ef4444;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Admin</h2>
+
+    <a href="/movies/admin-dashboard/">Dashboard</a>
+    <a href="/movies/admin-movies/">Movies</a>
+    <a href="/movies/admin-bookings/">Bookings</a>
+
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
+
+<div class="main">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html> 

@@ -1,41 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Bookings</title>
+{% extends 'movies/admin_base.html' %}
 
-    <style>
-        body {
-            font-family: Arial;
-            background: #f4f6f9;
-            padding: 20px;
-        }
+{% block title %}Bookings{% endblock %}
 
-        h1 {
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            background: white;
-            border-collapse: collapse;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
-
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-            text-align: center;
-        }
-
-        th {
-            background: #111827;
-            color: white;
-        }
-
-    </style>
-</head>
-
-<body>
+{% block content %}
 
 <h1>All Bookings</h1>
 
@@ -59,8 +26,26 @@
         <td>{{ b.booked_at }}</td>
     </tr>
     {% endfor %}
-
 </table>
 
-</body>
-</html>
+<style>
+table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #111827;
+    color: white;
+}
+</style>
+
+{% endblock %} admin_bookings.html

@@ -1,176 +1,121 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+{% extends 'movies/admin_base.html' %}
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% block title %}Dashboard{% endblock %}
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: #f4f6f9;
-        }
+{% block content %}
 
-        .sidebar {
-            width: 220px;
-            height: 100vh;
-            background: #111827;
-            color: white;
-            position: fixed;
-            padding: 20px;
-        }
+<h1>Dashboard</h1>
 
-        .sidebar h2 {
-            margin-bottom: 30px;
-        }
+<!-- FILTERS -->
+<div class="filters">
+    <form method="GET">
+        <input type="date" name="start_date">
+        <input type="date" name="end_date">
 
-        .sidebar a {
-            display: block;
-            color: #9ca3af;
-            text-decoration: none;
-            margin: 10px 0;
-        }
+        <select name="movie">
+            <option value="">All Movies</option>
+            {% for m in movies %}
+            <option value="{{ m.id }}">{{ m.name }}</option>
+            {% endfor %}
+        </select>
 
-        .sidebar a:hover {
-            color: white;
-        }
-
-        .main {
-            margin-left: 240px;
-            padding: 20px;
-        }
-
-        .cards {
-            display: flex;
-            gap: 20px;
-        }
-
-        .card {
-            flex: 1;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0px 5px 15px rgba(0,0,0,0.08);
-        }
-
-        .card h3 {
-            margin: 0;
-            color: gray;
-        }
-
-        .card p {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .filters {
-            margin: 20px 0;
-        }
-
-        .filters input, .filters select {
-            padding: 8px;
-            margin-right: 10px;
-        }
-
-        .section {
-            margin-top: 40px;
-            display: flex;
-            gap: 30px;
-        }
-
-        .box {
-            flex: 1;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-        }
-    </style>
-</head>
-
-<body>
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-    <h2>Admin</h2>
-    <a href="/movies/admin-dashboard/">Dashboard</a>
-    <a href="/movies/admin-movies/">Movies</a>
-    <a href="/movies/admin-bookings/">Bookings</a>
+        <button type="submit">Filter</button>
+    </form>
 </div>
 
-<!-- MAIN -->
-<div class="main">
-
-    <h1>Dashboard</h1>
-
-    <!-- FILTERS -->
-    <div class="filters">
-        <form method="GET">
-            <input type="date" name="start_date">
-            <input type="date" name="end_date">
-
-            <select name="movie">
-                <option value="">All Movies</option>
-                {% for m in movies %}
-                    <option value="{{ m.id }}">{{ m.name }}</option>
-                {% endfor %}
-            </select>
-
-            <button type="submit">Filter</button>
-        </form>
+<!-- CARDS -->
+<div class="cards">
+    <div class="card">
+        <h3>Total Revenue</h3>
+        <p>₹{{ total_revenue }}</p>
     </div>
 
-    <!-- CARDS -->
-    <div class="cards">
-        <div class="card">
-            <h3>Total Revenue</h3>
-            <p>₹{{ total_revenue }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Total Bookings</h3>
-            <p>{{ total_bookings }}</p>
-        </div>
+    <div class="card">
+        <h3>Total Bookings</h3>
+        <p>{{ total_bookings }}</p>
     </div>
-
-    <!-- CHART -->
-    <div class="section">
-        <div class="box">
-            <h3>Popular Movies</h3>
-            <canvas id="movieChart"></canvas>
-        </div>
-
-        <div class="box">
-            <h3>Busiest Theaters</h3>
-            <ul>
-                {% for t in busiest_theaters %}
-                    <li>{{ t.theater__name }} - {{ t.total }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-
 </div>
+
+<!-- CHART -->
+<div class="section">
+    <div class="box">
+        <h3>Popular Movies</h3>
+        <canvas id="movieChart"></canvas>
+    </div>
+
+    <div class="box">
+        <h3>Busiest Theaters</h3>
+        <ul>
+            {% for t in busiest_theaters %}
+            <li>{{ t.theater__name }} - {{ t.total }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<style>
+    .cards {
+        display: flex;
+        gap: 20px;
+    }
+
+    .card {
+        flex: 1;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h3 {
+        margin: 0;
+        color: gray;
+    }
+
+    .card p {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .filters {
+        margin: 20px 0;
+    }
+
+    .filters input,
+    .filters select {
+        padding: 8px;
+        margin-right: 10px;
+    }
+
+    .section {
+        margin-top: 40px;
+        display: flex;
+        gap: 30px;
+    }
+
+    .box {
+        flex: 1;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+    }
+</style>
 
 <script>
-const data = {
-    labels: [{% for m in popular_movies %}"{{ m.movie__name }}",{% endfor %}],
+    const data = {
+        labels: [{% for m in popular_movies %}"{{ m.movie__name }}", {% endfor %}],
     datasets: [{
         label: 'Bookings',
-        data: [{% for m in popular_movies %}{{ m.total }},{% endfor %}],
+        data: [{% for m in popular_movies %}{{ m.total }}, {% endfor %}],
         backgroundColor: '#6366f1'
     }]
 };
 
-new Chart(document.getElementById('movieChart'), {
-    type: 'bar',
-    data: data
-});
+    new Chart(document.getElementById('movieChart'), {
+        type: 'bar',
+        data: data
+    });
 </script>
 
-</body>
-</html>
+{% endblock %}

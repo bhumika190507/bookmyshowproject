@@ -24,14 +24,20 @@ def register(request):
 
 def login_view(request):
     if request.method == 'POST':
-        form=AuthenticationForm(request,data=request.POST)
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            user=form.get_user()
-            login(request,user)
-            return redirect('/')
+            user = form.get_user()
+            login(request, user)
+
+            # 🔥 ADD THIS
+            if user.is_staff or user.is_superuser:
+                return redirect('/movies/admin-dashboard/')
+            else:
+                return redirect('/')
     else:
-        form=AuthenticationForm()
-    return render(request,'users/login.html',{'form':form})
+        form = AuthenticationForm()
+
+    return render(request, 'users/login.html', {'form': form})
 
 @login_required
 def profile(request):

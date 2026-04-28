@@ -27,7 +27,6 @@ SECRET_KEY = 'django-insecure-c8aetlj(=vp90n@#yoc^&d(_6ivp(d!bv-4-f!r$lawptjzrwu
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Application definition
@@ -112,8 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-RAZORPAY_KEY_ID = "rzp_test_SKhJqSovEHEPYf"
-RAZORPAY_KEY_SECRET = "SjtsK4186NqZDdmlbikCkY02"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -136,6 +133,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGOUT_REDIRECT_URL = 'login'
+
 # ================= EMAIL CONFIGURATION =================
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -146,3 +146,5 @@ EMAIL_HOST_USER = 'lalwanibhumika36@gmail.com'
 EMAIL_HOST_PASSWORD = 'wqmq apxe txra jiij'
 DEFAULT_FROM_EMAIL = 'bookmyseat <lalwanibhumika36@gmail.com>'
 
+RAZORPAY_KEY_ID = "rzp_test_SKhJqSovEHEPYf"
+RAZORPAY_KEY_SECRET = "SjtsK4186NqZDdmlbikCkY02"

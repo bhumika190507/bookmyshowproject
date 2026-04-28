@@ -311,4 +311,3 @@ def admin_movies(request):
     return render(request, 'movies/admin_movies.html', {
         'movie_data': movie_data
     })
-    
